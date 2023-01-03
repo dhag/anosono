@@ -183,7 +183,7 @@
             this.Controls.Add(this.groupBox1);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form3";
-            this.Text = "Form3";
+            this.Text = "AnoSono   あのその             by Iwate University";
             this.Shown += new System.EventHandler(this.Form3_Shown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

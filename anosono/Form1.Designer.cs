@@ -579,7 +579,7 @@
             this.ClientSize = new System.Drawing.Size(781, 450);
             this.Controls.Add(this.tabControl1);
             this.Name = "Form1";
-            this.Text = "AnoSono                by Iwate University";
+            this.Text = "AnoSono   あのその             by Iwate University";
             this.Shown += new System.EventHandler(this.Form1_Shown);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1__.ResumeLayout(false);
