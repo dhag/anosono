@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form3));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.panel1__1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
@@ -163,12 +164,14 @@
             // button0__1
             // 
             this.button0__1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.button0__1.Location = new System.Drawing.Point(304, 298);
+            this.button0__1.Image = ((System.Drawing.Image)(resources.GetObject("button0__1.Image")));
+            this.button0__1.Location = new System.Drawing.Point(391, 298);
             this.button0__1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button0__1.Name = "button0__1";
-            this.button0__1.Size = new System.Drawing.Size(275, 63);
+            this.button0__1.Size = new System.Drawing.Size(255, 63);
             this.button0__1.TabIndex = 4;
-            this.button0__1.Text = "決定して開始";
+            this.button0__1.Text = "決定して開始　";
+            this.button0__1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.button0__1.UseVisualStyleBackColor = false;
             this.button0__1.Visible = false;
             this.button0__1.Click += new System.EventHandler(this.button0__1_Click);
