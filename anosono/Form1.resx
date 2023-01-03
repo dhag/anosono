@@ -57,4 +57,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="textBox2_4__1.Text" xml:space="preserve">
+    <value>#!/usr/bin/env python3
+# -*- coding:utf-8 -*-
+# 
+import os
+
+from yolox.exp import Exp as MyExp
+
+
+class Exp(MyExp):
+    def __init__(self):
+        super(Exp, self).__init__()
+
+        self.exp_name = os.path.split(os.path.realpath(__file__))[1].split(".")[0]
+</value>
+  </data>
 </root>

@@ -65,10 +65,10 @@
             this.panel1__1.AllowDrop = true;
             this.panel1__1.BackColor = System.Drawing.SystemColors.ControlDark;
             this.panel1__1.Controls.Add(this.label1);
-            this.panel1__1.Location = new System.Drawing.Point(161, 116);
+            this.panel1__1.Location = new System.Drawing.Point(6, 116);
             this.panel1__1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1__1.Name = "panel1__1";
-            this.panel1__1.Size = new System.Drawing.Size(417, 94);
+            this.panel1__1.Size = new System.Drawing.Size(572, 76);
             this.panel1__1.TabIndex = 4;
             this.panel1__1.Visible = false;
             this.panel1__1.DragDrop += new System.Windows.Forms.DragEventHandler(this.panel1_DragDrop);
@@ -77,11 +77,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(126, 35);
+            this.label1.Location = new System.Drawing.Point(171, 36);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(109, 15);
+            this.label1.Size = new System.Drawing.Size(229, 15);
             this.label1.TabIndex = 0;
-            this.label1.Text = "ここにファイルをドロップ";
+            this.label1.Text = "ここに画像ファイルをまとめてドロップしてください。";
             // 
             // button1__2
             // 
@@ -131,7 +131,7 @@
             // 
             this.groupBox2.Controls.Add(this.textBox2__1);
             this.groupBox2.Controls.Add(this.button2__1);
-            this.groupBox2.Location = new System.Drawing.Point(1, 227);
+            this.groupBox2.Location = new System.Drawing.Point(1, 216);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -162,13 +162,14 @@
             // 
             // button0__1
             // 
-            this.button0__1.Location = new System.Drawing.Point(317, 309);
+            this.button0__1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.button0__1.Location = new System.Drawing.Point(304, 298);
             this.button0__1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button0__1.Name = "button0__1";
-            this.button0__1.Size = new System.Drawing.Size(287, 38);
+            this.button0__1.Size = new System.Drawing.Size(275, 63);
             this.button0__1.TabIndex = 4;
             this.button0__1.Text = "決定して開始";
-            this.button0__1.UseVisualStyleBackColor = true;
+            this.button0__1.UseVisualStyleBackColor = false;
             this.button0__1.Visible = false;
             this.button0__1.Click += new System.EventHandler(this.button0__1_Click);
             // 
@@ -183,6 +184,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form3";
             this.Text = "Form3";
+            this.Shown += new System.EventHandler(this.Form3_Shown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.panel1__1.ResumeLayout(false);

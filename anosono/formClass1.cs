@@ -294,22 +294,32 @@ namespace anosono
 
 
 
-        private void Form1_Load(string fileName)
+        private void  Form1_LoadConfig()
         {
+            var fileName = "config.json";
+            try
+            {
+                fileName = File.ReadAllText("configbase.txt");
+
+            }
+            catch
+            {
+            }
             try
             {
                 var jsonString = File.ReadAllText(fileName);
                 config = JsonSerializer.Deserialize<Config>(jsonString, Coco.GetOption());
             }
             catch { }
-            Config2TextBox(fileName);
+
+            config.thisFileName = fileName;
         }
         void Config2TextBox(string fileName) {
             if (!string.IsNullOrWhiteSpace(fileName))
             {
                 textBox2_3__1.Text = fileName;
             }
-            textBox1_1__1.Text = config.ProjectFolder;
+            textBox1_1__1.Text = config.ProjectFolderFullPath;
             textBox1_1__2.Text = config.ImageFileFolder;
             textBox2_1__1.Text = config.MaxDistanceFromMouseToNode.ToString();
             textBox2_2__1.Text = config.MinimumLinkLength.ToString();
@@ -318,21 +328,26 @@ namespace anosono
 
         void TextBox2Config()
         {
-            config.ProjectFolder = textBox1_1__1.Text;
-            config.ImageFileFolder = textBox1_1__2.Text;
-            config.MaxDistanceFromMouseToNode = float.Parse(textBox2_1__1.Text);
-            config.MinimumLinkLength = int.Parse(textBox2_2__1.Text);
-
+            lock (config)
+            {
+                config.ProjectFolderFullPath = textBox1_1__1.Text;
+                config.ImageFileFolder = textBox1_1__2.Text;
+                config.MaxDistanceFromMouseToNode = float.Parse(textBox2_1__1.Text);
+                config.MinimumLinkLength = int.Parse(textBox2_2__1.Text);
+            }
         }
         private void Form1_Save(string fileName)
         {
-/*          var config = new Config
+            /*          var config = new Config
+                        {
+                        };
+            */
+
+            string jsonString = "";
+            lock (config)
             {
-            };
-*/
-
-
-            string jsonString = JsonSerializer.Serialize(config, Coco.GetOption());
+                jsonString = JsonSerializer.Serialize(config, Coco.GetOption());
+            }
             try
             {
                 File.WriteAllText(fileName, jsonString);

@@ -34,19 +34,21 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(0, 3);
+            this.textBox1.Location = new System.Drawing.Point(0, 2);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox1.Size = new System.Drawing.Size(599, 269);
+            this.textBox1.Size = new System.Drawing.Size(525, 203);
             this.textBox1.TabIndex = 0;
             this.textBox1.WordWrap = false;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(494, 278);
+            this.button1.Location = new System.Drawing.Point(432, 208);
+            this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(94, 29);
+            this.button1.Size = new System.Drawing.Size(82, 22);
             this.button1.TabIndex = 1;
             this.button1.Text = "close";
             this.button1.UseVisualStyleBackColor = true;
@@ -54,11 +56,12 @@
             // 
             // Form2
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(600, 307);
+            this.ClientSize = new System.Drawing.Size(666, 388);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox1);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form2";
             this.Text = "Form2";
             this.ResumeLayout(false);

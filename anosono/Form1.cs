@@ -1,4 +1,8 @@
+using System.IO;
 using System.Numerics;
+using System.Web;
+using System.Windows.Forms;
+using static System.Net.WebRequestMethods;
 
 namespace anosono
 {
@@ -6,15 +10,24 @@ namespace anosono
     {
         Form3 form3;
 
-        public Form1()
+        public Config GetConfigClone()
         {
-            form3= new Form3();
+            Config c;
+            lock (config)
+            {
+                c = config.CloneMyself();
+            }
+            return c;
+        }
+        public Form1()
+
+        {
+            Form1_LoadConfig();
+
+            form3 = new Form3() { form1 = this };
             form3.ShowDialog();
 
             InitializeComponent();
-
-
-
         }
 
         private void button1_1__1_Click(object sender, EventArgs e)
@@ -51,32 +64,100 @@ namespace anosono
 
         private void button1_2__1_Click(object sender, EventArgs e)
         {
-            var imagePackList_= new List<ImagePack>();
+            viewImageList();
+        }
+        private void viewImageList()
+        {
+            var imagePackList_ = new List<ImagePack>();
             //var categoryList_ = new List<Coco.Categories>();
 
-            if (checkBox1_2__1.Checked) {//追加モード
+            if (checkBox1_2__1.Checked)
+            {//追加モード
                 imagePackList_ = imagePackList;
                 //categoryList_ = categoryList;
             }
             else
             {
-                if(!disposeMessage())return;
+                if (!disposeMessage()) return;
             }
 
             string[] files = new string[0];
             try
             {
-                files = System.IO.Directory.GetFiles(textBox1_1__1.Text+"/" + textBox1_1__2.Text, "*");
+                files = System.IO.Directory.GetFiles(textBox1_1__1.Text + "/" + textBox1_1__2.Text, "*");
             }
             catch
             {
 
             }
-            imagePackList = ImagePack.CreateNewImagePackList_(imagePackList_,files);//
+            imagePackList = ImagePack.CreateNewImagePackList_(imagePackList_, files);//
 
             currentImagePack = imagePackList[0];
-            comboBox1__1_Update(); 
+            comboBox1__1_Update();
             //ファイルの追加のみなので、カテゴリリストは不要
+        }
+
+        void loadAnnotationFile(string filename)
+        {
+
+            var imagePackList_ = new List<ImagePack>();
+            var categoryList_ = new List<Coco.Categories>();
+            if (checkBox1_3__1.Checked)
+            {//追加モード
+                imagePackList_ = imagePackList;
+                categoryList_ = categoryList;
+            }
+            else
+            {
+                if (!disposeMessage()) return;
+            }
+
+            using (StreamReader reader = new StreamReader(filename))
+            {
+                var fileContent = reader.ReadToEnd();//丸ごと読む
+                Coco cc = Coco.JsonToCoco(fileContent);//JSON読む
+                if (cc != null)
+                {
+                    //----------------------------------
+                    int categoryIDmin = 0;
+                    foreach (var cat in categoryList)
+                    {
+                        if (categoryIDmin <= cat.id)
+                        {
+                            categoryIDmin = cat.id;
+                        }
+                    }
+                    //カテゴリID修正A
+                    int categoryIDOffset = categoryIDmin;
+                    foreach (var cat in cc.categories)
+                    {
+                        cat.id += categoryIDOffset;
+                    }
+                    //カテゴリID修正B
+                    foreach (var ann in cc.annotations)
+                    {
+                        ann.category_id += categoryIDOffset;
+                    }
+
+                    categoryList_.AddRange(cc.categories);
+                    //----------------------------------
+
+                    imagePackList = ImagePack.CreateImagePackList_(imagePackList_, cc);//
+                    currentImagePack = imagePackList[0];
+                    comboBox1__1_Update();
+                    //categoryList_.AddRange(cc.categories);
+
+
+                    categoryList = categoryList_;
+                    comboBox1_4__1.Items.Clear();
+                    foreach (var cat in categoryList)
+                    {
+                        comboBox1_4__1.Items.Add(cat.name);
+                    }
+                    comboBox1_4__1.Refresh();
+                }
+            }
+
         }
 
 
@@ -84,11 +165,12 @@ namespace anosono
 
         private void button1_3__1_Click(object sender, EventArgs e)
         {
-                try
-                {            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            try
             {
+                using (OpenFileDialog openFileDialog = new OpenFileDialog())
+                {
 
-                    openFileDialog.InitialDirectory = textBox1_1__1.Text ;
+                    openFileDialog.InitialDirectory = textBox1_1__1.Text;
                     openFileDialog.Filter = "json files (*.json)|*.json|txt files (*.txt)|*.txt|All files (*.*)|*.*";
                     //openFileDialog.FilterIndex = 2;
                     //openFileDialog.RestoreDirectory = true;
@@ -96,62 +178,7 @@ namespace anosono
                     //アノテーションファイルの読み取り
                     if (openFileDialog.ShowDialog() == DialogResult.OK)
                     {
-                        var imagePackList_ = new List<ImagePack>();
-                        var categoryList_ = new List<Coco.Categories>();
-                        if (checkBox1_3__1.Checked)
-                        {//追加モード
-                            imagePackList_ = imagePackList;
-                            categoryList_ = categoryList;
-                        }
-                        else
-                        {
-                            if (!disposeMessage()) return;
-                        }
-                        var filePath = openFileDialog.FileName;//Get the path of specified file                    
-                        var fileStream = openFileDialog.OpenFile();//Read the contents of the file into a stream
-                        using (StreamReader reader = new StreamReader(fileStream))
-                        {
-                            var fileContent = reader.ReadToEnd();//丸ごと読む
-                            Coco cc = Coco.JsonToCoco(fileContent);//JSON読む
-
-                            //----------------------------------
-                            int categoryIDmin = 0;
-                            foreach (var cat in categoryList)
-                            {
-                                if (categoryIDmin <= cat.id)
-                                {
-                                    categoryIDmin = cat.id;
-                                }
-                            }
-                            //カテゴリID修正A
-                            int categoryIDOffset = categoryIDmin;
-                            foreach (var cat in cc.categories)
-                            {
-                                cat.id += categoryIDOffset;
-                            }
-                            //カテゴリID修正B
-                            foreach (var ann in cc.annotations)
-                            {
-                                ann.category_id += categoryIDOffset;
-                            }
-
-                            categoryList_.AddRange(cc.categories);
-                            //----------------------------------
-
-                            imagePackList = ImagePack.CreateImagePackList_(imagePackList_, cc);//
-                            currentImagePack = imagePackList[0];
-                            comboBox1__1_Update();
-                            //categoryList_.AddRange(cc.categories);
-
-
-                            categoryList = categoryList_;
-                            comboBox1_4__1.Items.Clear();
-                            foreach (var cat in categoryList)
-                            {
-                                comboBox1_4__1.Items.Add(cat.name);
-                            }
-                            comboBox1_4__1.Refresh();
-                        }
+                        loadAnnotationFile(openFileDialog.FileName);
                     }
                 }
 
@@ -191,7 +218,7 @@ namespace anosono
             if (mouseMode1)
             {
                 var mainPen = mainPenA;
-                if(isCorrectMode)mainPen=mainPenB;
+                if (isCorrectMode) mainPen = mainPenB;
                 paintRect(g, mainPen, mouseStartPositionX, mouseStartPositionY, mouseCurrentPositionX, mouseCurrentPositionY);
             }
             //mainPenA.Dispose();
@@ -262,7 +289,7 @@ namespace anosono
                     if (cat.id == a.category_id)
                     {
                         index = i;
-                    }  
+                    }
                 }
 
                 pauseEventA(index);
@@ -336,7 +363,7 @@ namespace anosono
             mouseMode1 = false;
 
             pictureBox1.Refresh(); //mouseModeを戻してから。
-       }
+        }
 
         private void button2_2__1_Click(object sender, EventArgs e)
         {
@@ -345,10 +372,10 @@ namespace anosono
 
         private void comboBox1__1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var i=comboBox1__1.SelectedIndex;
-            if((0<=i)&& (i < imagePackList.Count))
+            var i = comboBox1__1.SelectedIndex;
+            if ((0 <= i) && (i < imagePackList.Count))
             {
-                currentImagePack=imagePackList[i];
+                currentImagePack = imagePackList[i];
             }
             gazoUpdate();
         }
@@ -357,7 +384,7 @@ namespace anosono
         {
             int ip = -1;
             comboBox1__1.Items.Clear();
-            foreach(var img in imagePackList)
+            foreach (var img in imagePackList)
             {
                 comboBox1__1.Items.Add(img.file_name);
                 if (img == currentImagePack)
@@ -367,7 +394,7 @@ namespace anosono
             }
             if (0 <= ip)
             {
-                comboBox1__1.SelectedIndex= ip;
+                comboBox1__1.SelectedIndex = ip;
             }
 
             comboBox1__1.Refresh();
@@ -389,13 +416,13 @@ namespace anosono
 
         private void button1_6__2_Click(object sender, EventArgs e)
         {
-            if (comboBox1__1.SelectedIndex+1< comboBox1__1.Items.Count)
+            if (comboBox1__1.SelectedIndex + 1 < comboBox1__1.Items.Count)
             {
                 comboBox1__1.SelectedIndex++;
             }
         }
 
-        private void button1__1_Click(object sender, EventArgs e)
+        private void button1_0__1_Click(object sender, EventArgs e)
         {
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
@@ -417,20 +444,20 @@ namespace anosono
                 }
             }
         }
- 
+
         private void button1_1__2_Click(object sender, EventArgs e)
         {
 
             var initialFolder = Environment.CurrentDirectory;
             if (!string.IsNullOrWhiteSpace(textBox1_1__2.Text))
             {
-                initialFolder = textBox1_1__1.Text+"/"+textBox1_1__2.Text;
+                initialFolder = textBox1_1__1.Text + "/" + textBox1_1__2.Text;
             }
             FolderDialog.Bll.FolderDialog.ISelect dialog = new FolderDialog.Bll.FolderDialog.Select();
             dialog.InitialFolder = initialFolder;// "C:\\";
             if (DialogResult.OK == dialog.ShowDialog())
             {
-                var fpath= dialog.Folder;
+                var fpath = dialog.Folder;
                 textBox1_1__2.Text = System.IO.Path.GetFileName(fpath);
                 TextBox2Config();
             }
@@ -444,32 +471,60 @@ namespace anosono
             pictureBox1.Refresh();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void Form1_Shown(object sender, EventArgs e)
         {
-            var s = "config.json";
-            try
+
+            textBox1_1__1.Text = config.ProjectFolderFullPath;
+            textBox1_1__2.Text = config.AllImageFileFolder;
+            config.ImageFileFolder = config.TrainImageFileFolder;
+            config.AnnotationFileName = config.AllAnnotationFileName;
+
+            var annotationFolderFullPath = config.ProjectFolderFullPath +@"\"+ config.AnnotationFileFolder;
+                
+            if (config.mode == 0)
             {
-                s = File.ReadAllText("configbase.txt");
-
-            } catch
-            { 
+                viewImageList();
             }
-
-
-            Form1_Load(s);
-
-            form3.getfolders(
-                out string projectFolder,
-                out string AnnotationFolder,
-                out string TrainingFolder,
-                out string ValidationFolder);
-            textBox1_1__1.Text = projectFolder;
-            textBox1_1__2.Text = TrainingFolder;
-
-            TextBox2Config();
-
+            else if (config.mode == 1)
+            {
+                var fullpath=annotationFolderFullPath + @"\" + config.AnnotationFileName;
+                loadAnnotationFile(fullpath);
+            }
+            else if (config.mode == 2)
+            {
+                textBox1_1__2.Text = config.TrainImageFileFolder;
+                config.ImageFileFolder= config.TrainImageFileFolder;
+                config.AnnotationFileName = config.TrainAnnotationFileName;
+                var fullpath = annotationFolderFullPath + @"\" + config.AnnotationFileName;
+                loadAnnotationFile(fullpath);
+            }
         }
 
+        public void UpdateConfig(Config _config, bool isUpdateTextBox)
+        {
+            lock (config)
+            {
+                config.CopyFrom(_config);
+            }
+            if (isUpdateTextBox)
+            {
+                UpdateConfig2TextBox();
+            }
+        }
+        public void UpdateConfig2TextBox()
+        {
+            //label1.Text = string.Format("{0}", count);
+            if (this.InvokeRequired)
+            {
+                this.Invoke(() =>
+                {
+                    this.UpdateConfig2TextBox();
+                });
+                return;
+            }
+            //label1.Text = string.Format("{0}", count);
+            Config2TextBox(null);
+        }
 
 
         private void button1_Click(object sender, EventArgs e)
@@ -484,7 +539,7 @@ namespace anosono
             string[] files = new string[0];
             try
             {
-                files = System.IO.Directory.GetFiles(textBox1_1__1.Text +"/"+ textBox1_1__2.Text, "*");
+                files = System.IO.Directory.GetFiles(textBox1_1__1.Text + "/" + textBox1_1__2.Text, "*");
             }
             catch
             {
@@ -514,8 +569,8 @@ namespace anosono
                 result.Add(imgIsActive);
             }
             int imageCount = 0;
-            int annCount=0;
-            for(int i = 0; i < result.Count; i++)
+            int annCount = 0;
+            for (int i = 0; i < result.Count; i++)
             {
                 var img = imagePackList[i];
                 if (!result[i])
@@ -526,8 +581,8 @@ namespace anosono
             }
             if (0 < imageCount)
             {
-                var msg = imageCount.ToString()+ @"個の画像がありません。"+ annCount.ToString()+@"個のアノテーションデータが削除されますが、続行しますか";
-                DialogResult dr = MessageBox.Show(msg,@"実在の画像ファイルとの照合",MessageBoxButtons.YesNo);
+                var msg = imageCount.ToString() + @"個の画像がありません。" + annCount.ToString() + @"個のアノテーションデータが削除されますが、続行しますか";
+                DialogResult dr = MessageBox.Show(msg, @"実在の画像ファイルとの照合", MessageBoxButtons.YesNo);
                 if (dr == System.Windows.Forms.DialogResult.Yes)
                 {
                     var imagePackList___ = new List<ImagePack>();
@@ -538,12 +593,13 @@ namespace anosono
                         {//ない、または無効
 
                         }
-                        else {
+                        else
+                        {
                             imagePackList___.Add(img);
                         }
                     }
                     imagePackList = imagePackList___;
-                    
+
                     if (imagePackList_.Count == 0)//ひとつは必要。
                     {
                         imagePackList_.Add(new ImagePack());
@@ -552,9 +608,9 @@ namespace anosono
                     comboBox1__1_Update();
                     MessageBox.Show("完了しました");
                 }
-                else 
+                else
                 {
-                    
+
                 }
             }
             else
@@ -567,29 +623,230 @@ namespace anosono
 
         private void button1_4__2_Click(object sender, EventArgs e)
         {
+            var text = cocoCat();
+            var f2 = new Form2();
+            f2.Show();
+            f2.WriteTextSafe(text);
+
+        }
+
+        private void button1_0__2_Click(object sender, EventArgs e)
+        {
+            var r=MessageBox.Show("既存のファイルがあっても上書きします","",MessageBoxButtons.OKCancel);
+            if (r == DialogResult.OK)
+            {
+                var aFilename =
+                    config.ProjectFolderFullPath + @"\"
+                    + config.AnnotationFileFolder + @"\"
+                    + config.AnnotationFileName;
+
+                var jsonCoco = createJsonCoco();
+                using (StreamWriter writer = new StreamWriter(aFilename))
+                {
+                    String s = jsonCoco;
+                    writer.WriteLine(s);
+                }
+
+                var pFilename =
+                    config.ProjectFolderFullPath + @"\"
+                    + config.DefinedPythonFileName;
+
+                using (StreamWriter writer = new StreamWriter(pFilename))
+                {
+                    String s = py();
+                    writer.WriteLine(s);
+                }
+
+
+                var cFilename =
+                    config.ProjectFolderFullPath + @"\"
+                    + config.CategoryPythonFileName;
+
+                using (StreamWriter writer = new StreamWriter(cFilename))
+                {
+                    String s = cocoCat();
+                    writer.WriteLine(s);
+                }
+
+                if (int.Parse(textBox1_0__2.Text) == 100)
+                {
+                    var atFilename =
+                        config.ProjectFolderFullPath + @"\"
+                        + config.AnnotationFileFolder + @"\"
+                        + config.TrainAnnotationFileName;
+
+                    using (StreamWriter writer = new StreamWriter(atFilename))
+                    {
+                        String s = jsonCoco;
+                        writer.WriteLine(s);
+                    }
+                    var avFilename =
+                        config.ProjectFolderFullPath + @"\"
+                        + config.AnnotationFileFolder + @"\"
+                        + config.ValidAnnotationFileName;
+
+                    using (StreamWriter writer = new StreamWriter(avFilename))
+                    {
+                        String s = jsonCoco;
+                        writer.WriteLine(s);
+                    }
+                    if ((config.mode == 0) || (config.mode == 1))
+                    {
+                        var iAllDirName =
+                        config.ProjectFolderFullPath + @"\"
+                        + config.AllImageFileFolder;
+                        var itDirName =
+                        config.ProjectFolderFullPath + @"\"
+                        + config.TrainImageFileFolder;
+                        var ivDirName =
+                        config.ProjectFolderFullPath + @"\"
+                        + config.ValidImageFileFolder;
+
+
+
+
+                        CopyAll(iAllDirName, itDirName);
+                        CopyAll(iAllDirName, ivDirName);
+                    }
+                }
+                else
+                {
+                    var ratio = float.Parse(textBox1_0__2.Text) / 100f;
+
+                    var iAllDirName =
+                    config.ProjectFolderFullPath + @"\"
+                    + config.AllImageFileFolder;
+                    var itDirName =
+                    config.ProjectFolderFullPath + @"\"
+                    + config.TrainImageFileFolder;
+                    var ivDirName =
+                    config.ProjectFolderFullPath + @"\"
+                    + config.ValidImageFileFolder;
+
+                    var files = System.IO.Directory.GetFiles(iAllDirName);
+                    var n = files.Length;
+                    var nv = (int)(n * (1 - ratio));
+                    var nt = n - nv;
+
+                    List<string> ft = new List<string>();
+                    List<string> fv = new List<string>();
+                    for (var i = 0; i < nt; i++)
+                    {
+                        ft.Add(files[i]);
+                    }
+                    for (var i = nt; i < n; i++)
+                    {
+                        fv.Add(files[i]);
+                    }
+                    Copy(ft, itDirName);
+                    Copy(fv, ivDirName);
+                }
+            }
+        }
+
+        public void Copy(List<string>files , string targetDirFullpath)
+        {
+            string er = "";
+            foreach (var f in files)
+            {
+                try
+                {
+                    var fname = Path.GetFileName(f);
+                    System.IO.File.Copy(f, targetDirFullpath+@"\" + fname, true);//上書きOK;
+                }
+                catch (Exception ex)
+                {
+                    if (ex is System.IO.IOException)
+                    {
+                        er += Path.GetFileName(f) + System.Environment.NewLine;
+                    }
+                }
+
+            }
+        }
+
+        //リカーシブなコピーだがそのまま。
+        public static void CopyAll(string sourceDirectory, string targetDirectory)
+        {
+            //string sourceDirectory = @"d:\DemoSourceDirectory";
+            //string targetDirectory = @"d:\DemoTargetDirectory";
+            DirectoryInfo sourceDircetory = new DirectoryInfo(sourceDirectory);
+            DirectoryInfo targetDircetory = new DirectoryInfo(targetDirectory);
+            CopyAll(sourceDircetory, targetDircetory);
+            Console.ReadLine();
+        }
+        //リカーシブなコピーだがそのまま。
+        public static void CopyAll(DirectoryInfo source, DirectoryInfo target)
+        {
+            Directory.CreateDirectory(target.FullName);
+            foreach (FileInfo fi in source.GetFiles())
+            {
+                Console.WriteLine(@"Copying {0}\{1}", target.FullName, fi.Name);
+                fi.CopyTo(Path.Combine(target.FullName, fi.Name), true);
+            }
+            foreach (DirectoryInfo diSourceSubDir in source.GetDirectories())
+            {
+                DirectoryInfo nextTargetSubDir =
+                target.CreateSubdirectory(diSourceSubDir.Name);
+                CopyAll(diSourceSubDir, nextTargetSubDir);
+            }
+        }
+
+
+        string cocoCat()
+        {
+
+
             int n = categoryList.Count;
 
 
             var nl = System.Environment.NewLine;
-            string text = "#!/usr/bin/env python3"+nl+"# -*- coding:utf-8 -*-"+nl+"# .\r\n";
+            string text = "#!/usr/bin/env python3" + nl + "# -*- coding:utf-8 -*-" + nl + "# .\r\n";
             text += "COCO_CLASSES = (" + nl;
-            for(int i = 0; i < n; i++)
+            for (int i = 0; i < n; i++)
             {
                 text += "'" + categoryList[i].name + "'";
                 if (i < n - 1)
                 {
                     text += ",";
-                    if (((i+1) %10)==0)
+                    if (((i + 1) % 10) == 0)
                     {
                         text += nl;
                     }
                 }
             }
-            text += nl+") " ;
-            var f2=new Form2();
-            f2.Show();
-            f2.WriteTextSafe(text);
+            text += nl + ") ";
+            return text;
+        }
+        string py()
+        { 
+            var s = textBox2_4__1.Text;
+            var nl = System.Environment.NewLine;
+            var tab = "        ";
+            var s1 = "self.depth = 0.33";
+            var s2 = "self.width = 0.50";
+            var s3 = "# Define yourself dataset path";
+            var s4 = "self.data_dir = \"datasets/my_data_C\" # <------------ your dataset folder";
+            var s5 = "self.train_ann = \"train.json\"# <------------ your annotations filename for training";
+            var s6 = "self.val_ann = \"val.json\"# <------------ your annotations filename for validation";
+            var s7 = "self.test_ann = \"test.json\"# <------------ NotUse?";
+            var s8 = "self.num_classes = 1  # <------------ number of your classes";
+            var s9 = "self.max_epoch = 10 # <------------ number of your epochs.300";
+            var s10 = "self.data_num_workers = 2";
+            var s11 = "self.eval_interval = 1";
 
+            s += tab + s1 + nl;
+            s += tab + s2 + nl;
+            s += tab + s3 + nl;
+            s += tab + s4 + nl;
+            s += tab + s5 + nl;
+            s += tab + s6 + nl;
+            s += tab + s7 + nl;
+            s += tab + s8 + nl;
+            s += tab + s9 + nl;
+            s += tab + s10+ nl;
+            s += tab + s11+ nl;
+            return s;
         }
     }
 
