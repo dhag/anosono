@@ -70,8 +70,7 @@ public partial class Coco
         var json = JsonSerializer.Serialize(dict, GetOption());
         return json;
     }
-
-    /// <summary>
+        /// <summary>
     /// オプションを設定します。内部メソッドです。
     /// </summary>
     /// <returns>JsonSerializerOptions型のオプション</returns>
