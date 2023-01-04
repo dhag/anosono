@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
 using System.Web;
@@ -90,6 +91,7 @@ namespace anosono
             {
 
             }
+            //ファイル名一覧を追加
             imagePackList = ImagePack.CreateNewImagePackList_(imagePackList_, files);//
 
             currentImagePack = imagePackList[0];
@@ -141,7 +143,7 @@ namespace anosono
 
                     categoryList_.AddRange(cc.categories);
                     //----------------------------------
-
+                    //イメージパックの差し替え
                     imagePackList = ImagePack.CreateImagePackList_(imagePackList_, cc);//
                     currentImagePack = imagePackList[0];
                     comboBox1__1_Update();
@@ -438,7 +440,7 @@ namespace anosono
                     var fileStream = saveFileDialog.OpenFile();//Read the contents of the file into a stream
                     using (StreamWriter writer = new StreamWriter(fileStream))
                     {
-                        String s = createJsonCoco();
+                        String s = createJsonCoco(imagePackList);
                         writer.WriteLine(s);
                     }
                 }
@@ -535,32 +537,49 @@ namespace anosono
 
         private void button1_3__2_Click(object sender, EventArgs e)
         {
+            var imageFolderFullpath = textBox1_1__1.Text + "/" + textBox1_1__2.Text;
+            int isChange = chackImage(imageFolderFullpath, imagePackList,true);
+            if (isChange == 0)
+            {
+                MessageBox.Show(@"画像ファイルとの照合完了。不具合はありません");
+            }
+            else if (isChange==1)
+            {
+                currentImagePack = imagePackList[0];
+                comboBox1__1_Update();
+                MessageBox.Show("完了しました");
+            }
+        }
+
+        int chackImage(string imageFolderFullpath, List<ImagePack> _imagePackList,bool isUI) {
+            int  isChange = 0;
             var imagePackList_ = new List<ImagePack>();
+            //ファイル一覧
             string[] files = new string[0];
             try
             {
-                files = System.IO.Directory.GetFiles(textBox1_1__1.Text + "/" + textBox1_1__2.Text, "*");
+                files = System.IO.Directory.GetFiles(imageFolderFullpath, "*");
             }
             catch
             {
-
+                isChange = 2;
             }
-            //仮データ作成。ここでファイルチェックも行われる。
+            //仮データ作成。ここでファイル読み取りチェックも行われる。
             var imagePackList__ = ImagePack.CreateNewImagePackList_(imagePackList_, files);//
             //既存と仮の照合
             List<bool> result = new List<bool>();
-            foreach (var img in imagePackList)
-            {
+            foreach (var img in _imagePackList)
+            {//既存一覧
                 bool imgIsActive = false;
-
                 img.isActive = false;
                 foreach (var img__ in imagePackList__)
                 {
                     if (img__.isActive)
-                    {
+                    {//仮データあり
                         if (img.file_name == img__.file_name)
-                        {
+                        {//同名仮データあり
 
+                            img.isActive = true;
                             imgIsActive = true;
                             break;
                         }
@@ -572,7 +591,7 @@ namespace anosono
             int annCount = 0;
             for (int i = 0; i < result.Count; i++)
             {
-                var img = imagePackList[i];
+                var img = _imagePackList[i];
                 if (!result[i])
                 {//ない、または無効
                     annCount += img.annotationList.Count;
@@ -581,14 +600,25 @@ namespace anosono
             }
             if (0 < imageCount)
             {
-                var msg = imageCount.ToString() + @"個の画像がありません。" + annCount.ToString() + @"個のアノテーションデータが削除されますが、続行しますか";
-                DialogResult dr = MessageBox.Show(msg, @"実在の画像ファイルとの照合", MessageBoxButtons.YesNo);
-                if (dr == System.Windows.Forms.DialogResult.Yes)
+                bool recover = true;
+                if (isUI)
                 {
+                    var msg = imageCount.ToString() + @"個の画像がありません。" + annCount.ToString() + @"個のアノテーションデータが削除されますが、続行しますか";
+                    DialogResult dr = MessageBox.Show(msg, @"実在の画像ファイルとの照合", MessageBoxButtons.YesNo);
+                    if (dr == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        //recover = true;
+                    }
+                    else
+                    {
+                        recover = false;
+                    }
+                }
+                if (recover) { 
                     var imagePackList___ = new List<ImagePack>();
                     for (int i = 0; i < result.Count; i++)
                     {
-                        var img = imagePackList[i];
+                        var img = _imagePackList[i];
                         if (!result[i])
                         {//ない、または無効
 
@@ -598,32 +628,32 @@ namespace anosono
                             imagePackList___.Add(img);
                         }
                     }
-                    imagePackList = imagePackList___;
+                    _imagePackList.Clear();
+                    _imagePackList.AddRange(imagePackList___);
 
-                    if (imagePackList_.Count == 0)//ひとつは必要。
+                    if (_imagePackList.Count == 0)//ひとつは必要。
                     {
-                        imagePackList_.Add(new ImagePack());
+                        _imagePackList.Add(new ImagePack());
                     }
-                    currentImagePack = imagePackList[0];
-                    comboBox1__1_Update();
-                    MessageBox.Show("完了しました");
+
+                    isChange = 1;
+
                 }
                 else
                 {
-
+                    isChange = -1;
                 }
             }
             else
             {
-                MessageBox.Show(@"画像ファイルとの照合完了。不具合はありません");
             }
-
+            return isChange;
 
         }
 
         private void button1_4__2_Click(object sender, EventArgs e)
         {
-            var text = cocoCat();
+            var text = cocoCat(categoryList);
             var f2 = new Form2();
             f2.Show();
             f2.WriteTextSafe(text);
@@ -639,8 +669,21 @@ namespace anosono
                     config.ProjectFolderFullPath + @"\"
                     + config.AnnotationFileFolder + @"\"
                     + config.AnnotationFileName;
+                var atFilename =
+                    config.ProjectFolderFullPath + @"\"
+                    + config.AnnotationFileFolder + @"\"
+                    + config.TrainAnnotationFileName;
 
-                var jsonCoco = createJsonCoco();
+                var avFilename =
+                    config.ProjectFolderFullPath + @"\"
+                    + config.AnnotationFileFolder + @"\"
+                    + config.ValidAnnotationFileName;
+
+
+                //アノテーションファイル
+                var jsonCoco = createJsonCoco(imagePackList);
+                String jsonCocoT = jsonCoco;
+                String jsonCocoV = jsonCoco;
                 using (StreamWriter writer = new StreamWriter(aFilename))
                 {
                     String s = jsonCoco;
@@ -664,32 +707,15 @@ namespace anosono
 
                 using (StreamWriter writer = new StreamWriter(cFilename))
                 {
-                    String s = cocoCat();
+                    String s = cocoCat(categoryList);
                     writer.WriteLine(s);
                 }
 
-                if (int.Parse(textBox1_0__2.Text) == 100)
+
+
+                if ((int.Parse(textBox1_0__2.Text) == 100)||((int.Parse(textBox1_0__2.Text) == 0)))
                 {
-                    var atFilename =
-                        config.ProjectFolderFullPath + @"\"
-                        + config.AnnotationFileFolder + @"\"
-                        + config.TrainAnnotationFileName;
-
-                    using (StreamWriter writer = new StreamWriter(atFilename))
-                    {
-                        String s = jsonCoco;
-                        writer.WriteLine(s);
-                    }
-                    var avFilename =
-                        config.ProjectFolderFullPath + @"\"
-                        + config.AnnotationFileFolder + @"\"
-                        + config.ValidAnnotationFileName;
-
-                    using (StreamWriter writer = new StreamWriter(avFilename))
-                    {
-                        String s = jsonCoco;
-                        writer.WriteLine(s);
-                    }
+                    //ファイルのコピー
                     if ((config.mode == 0) || (config.mode == 1))
                     {
                         var iAllDirName =
@@ -701,10 +727,6 @@ namespace anosono
                         var ivDirName =
                         config.ProjectFolderFullPath + @"\"
                         + config.ValidImageFileFolder;
-
-
-
-
                         CopyAll(iAllDirName, itDirName);
                         CopyAll(iAllDirName, ivDirName);
                     }
@@ -740,6 +762,25 @@ namespace anosono
                     }
                     Copy(ft, itDirName);
                     Copy(fv, ivDirName);
+
+                    var _imagePackListT = ImagePack.CreateCone(imagePackList);
+                    var _imagePackListV = ImagePack.CreateCone(imagePackList);
+                    var ct = chackImage(itDirName, _imagePackListT, false);
+                    var cv = chackImage(ivDirName, _imagePackListV, false);
+                    jsonCocoT = createJsonCoco(_imagePackListT);
+                    jsonCocoV = createJsonCoco(_imagePackListV);
+
+                }
+
+                //アノテーションファイル
+                using (StreamWriter writer = new StreamWriter(atFilename))
+                {
+                    writer.WriteLine(jsonCocoT);
+                }
+                //アノテーションファイル
+                using (StreamWriter writer = new StreamWriter(avFilename))
+                {
+                    writer.WriteLine(jsonCocoV);
                 }
             }
         }
@@ -793,11 +834,11 @@ namespace anosono
         }
 
 
-        string cocoCat()
+        string cocoCat(List<Coco.Categories> _categoryList)
         {
 
 
-            int n = categoryList.Count;
+            int n = _categoryList.Count;
 
 
             var nl = System.Environment.NewLine;
@@ -805,7 +846,7 @@ namespace anosono
             text += "COCO_CLASSES = (" + nl;
             for (int i = 0; i < n; i++)
             {
-                text += "'" + categoryList[i].name + "'";
+                text += "'" + _categoryList[i].name + "'";
                 if (i < n - 1)
                 {
                     text += ",";

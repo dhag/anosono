@@ -195,12 +195,12 @@ namespace anosono
             return id;
         }
 
-        String createJsonCoco()
+        String createJsonCoco(List<ImagePack> _imagePackList)
         {
             Coco coco = new Coco();
             //int imageID = 1;
             int annotationID = 1;
-            foreach (var imagePack in imagePackList)
+            foreach (var imagePack in _imagePackList)
             {
                 if (imagePack.isActive)
                 {

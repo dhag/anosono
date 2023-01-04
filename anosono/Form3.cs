@@ -55,7 +55,9 @@ namespace anosono
                     {
                         nameList.Add(diFile.Name);
                     }
-                    var path = NewNameCreator.CreateA(nameList, "YoloXTrainning", 3);
+
+
+                    var path = NewNameCreator.CreateA(nameList, Path.GetFileName(config.ProjectFolderFullPath), 3);
                     //Directory.CreateDirectory(path);
                     textBox1__2.Text = path;
 
@@ -277,6 +279,7 @@ namespace anosono
         {
             var config = form1.GetConfigClone();
             textBox1__1.Text = Path.GetDirectoryName(config.ProjectFolderFullPath);
+            textBox1__2.Text = Path.GetFileName(config.ProjectFolderFullPath);
             textBox2__1.Text = config.ProjectFolderFullPath ;
         }
     }

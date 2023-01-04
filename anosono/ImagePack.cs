@@ -8,7 +8,16 @@ using static Coco;
 
 public class ImagePack:Coco.Images
 {
-    ImagePack CloneMyself()
+    public static List<ImagePack> CreateCone(List<ImagePack>_imagepack)
+    {
+        var c = new List<ImagePack>();
+        foreach (var n in _imagepack)
+        {
+            c.Add(n.CloneMyself());
+        }
+        return c;
+    }
+    public ImagePack CloneMyself()
     {
         ImagePack c = new ImagePack();
 

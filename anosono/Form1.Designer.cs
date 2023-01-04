@@ -75,6 +75,7 @@
             this.groupBox2_1__ = new System.Windows.Forms.GroupBox();
             this.textBox2_1__1 = new System.Windows.Forms.TextBox();
             this.button2_1__1 = new System.Windows.Forms.Button();
+            this.label1_0__2 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1__.SuspendLayout();
             this.groupBox1_7__.SuspendLayout();
@@ -107,6 +108,7 @@
             // 
             // tabPage1__
             // 
+            this.tabPage1__.Controls.Add(this.label1_0__2);
             this.tabPage1__.Controls.Add(this.textBox1_0__2);
             this.tabPage1__.Controls.Add(this.button1_0__2);
             this.tabPage1__.Controls.Add(this.button1_0__1);
@@ -129,7 +131,7 @@
             // 
             // textBox1_0__2
             // 
-            this.textBox1_0__2.Location = new System.Drawing.Point(518, 91);
+            this.textBox1_0__2.Location = new System.Drawing.Point(512, 95);
             this.textBox1_0__2.Name = "textBox1_0__2";
             this.textBox1_0__2.Size = new System.Drawing.Size(45, 23);
             this.textBox1_0__2.TabIndex = 11;
@@ -572,6 +574,15 @@
             this.button2_1__1.UseVisualStyleBackColor = true;
             this.button2_1__1.Click += new System.EventHandler(this.button2_1__1_Click);
             // 
+            // label1_0__2
+            // 
+            this.label1_0__2.AutoSize = true;
+            this.label1_0__2.Location = new System.Drawing.Point(502, 77);
+            this.label1_0__2.Name = "label1_0__2";
+            this.label1_0__2.Size = new System.Drawing.Size(55, 15);
+            this.label1_0__2.TabIndex = 12;
+            this.label1_0__2.Text = "学習比率";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -658,5 +669,6 @@
         private GroupBox groupBox2_4__;
         private TextBox textBox2_4__1;
         private TextBox textBox1_0__2;
+        private Label label1_0__2;
     }
 }
