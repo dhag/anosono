@@ -31,6 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1__ = new System.Windows.Forms.TabPage();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label1_0__2 = new System.Windows.Forms.Label();
             this.textBox1_0__2 = new System.Windows.Forms.TextBox();
             this.button1_0__2 = new System.Windows.Forms.Button();
             this.button1_0__1 = new System.Windows.Forms.Button();
@@ -44,7 +47,6 @@
             this.groupBox1_5__ = new System.Windows.Forms.GroupBox();
             this.textBox1_5__2 = new System.Windows.Forms.TextBox();
             this.textBox1_5__1 = new System.Windows.Forms.TextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1_4__ = new System.Windows.Forms.GroupBox();
             this.button1_4__2 = new System.Windows.Forms.Button();
             this.buttonx1_4__1 = new System.Windows.Forms.Button();
@@ -63,9 +65,21 @@
             this.button1_1__1 = new System.Windows.Forms.Button();
             this.textBox1_1__1 = new System.Windows.Forms.TextBox();
             this.tabPage2__ = new System.Windows.Forms.TabPage();
+            this.groupBox2_5__ = new System.Windows.Forms.GroupBox();
+            this.textBox2_5__12 = new System.Windows.Forms.TextBox();
+            this.textBox2_5__11 = new System.Windows.Forms.TextBox();
+            this.textBox2_5__10 = new System.Windows.Forms.TextBox();
+            this.textBox2_5__9 = new System.Windows.Forms.TextBox();
+            this.textBox2_5__8 = new System.Windows.Forms.TextBox();
+            this.textBox2_5__7 = new System.Windows.Forms.TextBox();
+            this.textBox2_5__6 = new System.Windows.Forms.TextBox();
+            this.textBox2_5__5 = new System.Windows.Forms.TextBox();
+            this.textBox2_5__4 = new System.Windows.Forms.TextBox();
+            this.textBox2_5__3 = new System.Windows.Forms.TextBox();
+            this.textBox2_5__2 = new System.Windows.Forms.TextBox();
+            this.textBox2_5__1 = new System.Windows.Forms.TextBox();
             this.groupBox2_4__ = new System.Windows.Forms.GroupBox();
             this.textBox2_4__1 = new System.Windows.Forms.TextBox();
-            this.textBox2_4__2 = new System.Windows.Forms.TextBox();
             this.groupBox2_3__ = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox2_3__1 = new System.Windows.Forms.TextBox();
@@ -75,18 +89,19 @@
             this.groupBox2_1__ = new System.Windows.Forms.GroupBox();
             this.textBox2_1__1 = new System.Windows.Forms.TextBox();
             this.button2_1__1 = new System.Windows.Forms.Button();
-            this.label1_0__2 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1__.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1_7__.SuspendLayout();
             this.groupBox1_6__.SuspendLayout();
             this.groupBox1_5__.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1_4__.SuspendLayout();
             this.groupBox1_3__.SuspendLayout();
             this.groupBox1_2__.SuspendLayout();
             this.groupBox1_1__.SuspendLayout();
             this.tabPage2__.SuspendLayout();
+            this.groupBox2_5__.SuspendLayout();
             this.groupBox2_4__.SuspendLayout();
             this.groupBox2_3__.SuspendLayout();
             this.groupBox2_2__.SuspendLayout();
@@ -103,11 +118,13 @@
             this.tabControl1.Location = new System.Drawing.Point(1, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(783, 449);
+            this.tabControl1.Size = new System.Drawing.Size(914, 554);
             this.tabControl1.TabIndex = 0;
+            this.tabControl1.Resize += new System.EventHandler(this.tabControl1_Resize);
             // 
             // tabPage1__
             // 
+            this.tabPage1__.Controls.Add(this.panel1);
             this.tabPage1__.Controls.Add(this.label1_0__2);
             this.tabPage1__.Controls.Add(this.textBox1_0__2);
             this.tabPage1__.Controls.Add(this.button1_0__2);
@@ -115,7 +132,6 @@
             this.tabPage1__.Controls.Add(this.groupBox1_7__);
             this.tabPage1__.Controls.Add(this.groupBox1_6__);
             this.tabPage1__.Controls.Add(this.groupBox1_5__);
-            this.tabPage1__.Controls.Add(this.pictureBox1);
             this.tabPage1__.Controls.Add(this.groupBox1_4__);
             this.tabPage1__.Controls.Add(this.comboBox1__1);
             this.tabPage1__.Controls.Add(this.groupBox1_3__);
@@ -124,10 +140,41 @@
             this.tabPage1__.Location = new System.Drawing.Point(4, 24);
             this.tabPage1__.Name = "tabPage1__";
             this.tabPage1__.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1__.Size = new System.Drawing.Size(775, 421);
+            this.tabPage1__.Size = new System.Drawing.Size(906, 526);
             this.tabPage1__.TabIndex = 0;
             this.tabPage1__.Text = "---";
             this.tabPage1__.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.pictureBox1);
+            this.panel1.Location = new System.Drawing.Point(380, 220);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(507, 292);
+            this.panel1.TabIndex = 13;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(422, 196);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox1.TabIndex = 5;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
+            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
+            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
+            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
+            // 
+            // label1_0__2
+            // 
+            this.label1_0__2.AutoSize = true;
+            this.label1_0__2.Location = new System.Drawing.Point(502, 77);
+            this.label1_0__2.Name = "label1_0__2";
+            this.label1_0__2.Size = new System.Drawing.Size(55, 15);
+            this.label1_0__2.TabIndex = 12;
+            this.label1_0__2.Text = "学習比率";
             // 
             // textBox1_0__2
             // 
@@ -255,18 +302,6 @@
             this.textBox1_5__1.Name = "textBox1_5__1";
             this.textBox1_5__1.Size = new System.Drawing.Size(77, 22);
             this.textBox1_5__1.TabIndex = 0;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(346, 215);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(422, 196);
-            this.pictureBox1.TabIndex = 5;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
-            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
-            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
-            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
             // 
             // groupBox1_4__
             // 
@@ -444,6 +479,7 @@
             // 
             // tabPage2__
             // 
+            this.tabPage2__.Controls.Add(this.groupBox2_5__);
             this.tabPage2__.Controls.Add(this.groupBox2_4__);
             this.tabPage2__.Controls.Add(this.groupBox2_3__);
             this.tabPage2__.Controls.Add(this.groupBox2_2__);
@@ -451,18 +487,122 @@
             this.tabPage2__.Location = new System.Drawing.Point(4, 24);
             this.tabPage2__.Name = "tabPage2__";
             this.tabPage2__.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2__.Size = new System.Drawing.Size(775, 421);
+            this.tabPage2__.Size = new System.Drawing.Size(906, 526);
             this.tabPage2__.TabIndex = 1;
             this.tabPage2__.Text = "Advanced";
             this.tabPage2__.UseVisualStyleBackColor = true;
             // 
+            // groupBox2_5__
+            // 
+            this.groupBox2_5__.Controls.Add(this.textBox2_5__12);
+            this.groupBox2_5__.Controls.Add(this.textBox2_5__11);
+            this.groupBox2_5__.Controls.Add(this.textBox2_5__10);
+            this.groupBox2_5__.Controls.Add(this.textBox2_5__9);
+            this.groupBox2_5__.Controls.Add(this.textBox2_5__8);
+            this.groupBox2_5__.Controls.Add(this.textBox2_5__7);
+            this.groupBox2_5__.Controls.Add(this.textBox2_5__6);
+            this.groupBox2_5__.Controls.Add(this.textBox2_5__5);
+            this.groupBox2_5__.Controls.Add(this.textBox2_5__4);
+            this.groupBox2_5__.Controls.Add(this.textBox2_5__3);
+            this.groupBox2_5__.Controls.Add(this.textBox2_5__2);
+            this.groupBox2_5__.Controls.Add(this.textBox2_5__1);
+            this.groupBox2_5__.Location = new System.Drawing.Point(298, 20);
+            this.groupBox2_5__.Name = "groupBox2_5__";
+            this.groupBox2_5__.Size = new System.Drawing.Size(370, 374);
+            this.groupBox2_5__.TabIndex = 7;
+            this.groupBox2_5__.TabStop = false;
+            this.groupBox2_5__.Text = "groupBox1";
+            // 
+            // textBox2_5__12
+            // 
+            this.textBox2_5__12.Location = new System.Drawing.Point(15, 332);
+            this.textBox2_5__12.Name = "textBox2_5__12";
+            this.textBox2_5__12.Size = new System.Drawing.Size(334, 23);
+            this.textBox2_5__12.TabIndex = 13;
+            // 
+            // textBox2_5__11
+            // 
+            this.textBox2_5__11.Location = new System.Drawing.Point(15, 303);
+            this.textBox2_5__11.Name = "textBox2_5__11";
+            this.textBox2_5__11.Size = new System.Drawing.Size(334, 23);
+            this.textBox2_5__11.TabIndex = 12;
+            // 
+            // textBox2_5__10
+            // 
+            this.textBox2_5__10.Location = new System.Drawing.Point(15, 275);
+            this.textBox2_5__10.Name = "textBox2_5__10";
+            this.textBox2_5__10.Size = new System.Drawing.Size(334, 23);
+            this.textBox2_5__10.TabIndex = 11;
+            // 
+            // textBox2_5__9
+            // 
+            this.textBox2_5__9.Location = new System.Drawing.Point(15, 246);
+            this.textBox2_5__9.Name = "textBox2_5__9";
+            this.textBox2_5__9.Size = new System.Drawing.Size(334, 23);
+            this.textBox2_5__9.TabIndex = 10;
+            // 
+            // textBox2_5__8
+            // 
+            this.textBox2_5__8.Location = new System.Drawing.Point(15, 217);
+            this.textBox2_5__8.Name = "textBox2_5__8";
+            this.textBox2_5__8.Size = new System.Drawing.Size(334, 23);
+            this.textBox2_5__8.TabIndex = 9;
+            // 
+            // textBox2_5__7
+            // 
+            this.textBox2_5__7.Location = new System.Drawing.Point(15, 188);
+            this.textBox2_5__7.Name = "textBox2_5__7";
+            this.textBox2_5__7.Size = new System.Drawing.Size(334, 23);
+            this.textBox2_5__7.TabIndex = 8;
+            // 
+            // textBox2_5__6
+            // 
+            this.textBox2_5__6.Location = new System.Drawing.Point(15, 160);
+            this.textBox2_5__6.Name = "textBox2_5__6";
+            this.textBox2_5__6.Size = new System.Drawing.Size(334, 23);
+            this.textBox2_5__6.TabIndex = 7;
+            // 
+            // textBox2_5__5
+            // 
+            this.textBox2_5__5.Location = new System.Drawing.Point(15, 131);
+            this.textBox2_5__5.Name = "textBox2_5__5";
+            this.textBox2_5__5.Size = new System.Drawing.Size(334, 23);
+            this.textBox2_5__5.TabIndex = 6;
+            // 
+            // textBox2_5__4
+            // 
+            this.textBox2_5__4.Location = new System.Drawing.Point(15, 102);
+            this.textBox2_5__4.Name = "textBox2_5__4";
+            this.textBox2_5__4.Size = new System.Drawing.Size(334, 23);
+            this.textBox2_5__4.TabIndex = 5;
+            // 
+            // textBox2_5__3
+            // 
+            this.textBox2_5__3.Location = new System.Drawing.Point(15, 73);
+            this.textBox2_5__3.Name = "textBox2_5__3";
+            this.textBox2_5__3.Size = new System.Drawing.Size(334, 23);
+            this.textBox2_5__3.TabIndex = 4;
+            // 
+            // textBox2_5__2
+            // 
+            this.textBox2_5__2.Location = new System.Drawing.Point(15, 45);
+            this.textBox2_5__2.Name = "textBox2_5__2";
+            this.textBox2_5__2.Size = new System.Drawing.Size(334, 23);
+            this.textBox2_5__2.TabIndex = 3;
+            // 
+            // textBox2_5__1
+            // 
+            this.textBox2_5__1.Location = new System.Drawing.Point(15, 16);
+            this.textBox2_5__1.Name = "textBox2_5__1";
+            this.textBox2_5__1.Size = new System.Drawing.Size(334, 23);
+            this.textBox2_5__1.TabIndex = 2;
+            // 
             // groupBox2_4__
             // 
             this.groupBox2_4__.Controls.Add(this.textBox2_4__1);
-            this.groupBox2_4__.Controls.Add(this.textBox2_4__2);
-            this.groupBox2_4__.Location = new System.Drawing.Point(327, 174);
+            this.groupBox2_4__.Location = new System.Drawing.Point(3, 223);
             this.groupBox2_4__.Name = "groupBox2_4__";
-            this.groupBox2_4__.Size = new System.Drawing.Size(200, 114);
+            this.groupBox2_4__.Size = new System.Drawing.Size(289, 76);
             this.groupBox2_4__.TabIndex = 6;
             this.groupBox2_4__.TabStop = false;
             this.groupBox2_4__.Text = "groupBox1";
@@ -472,19 +612,10 @@
             this.textBox2_4__1.Location = new System.Drawing.Point(85, 11);
             this.textBox2_4__1.Multiline = true;
             this.textBox2_4__1.Name = "textBox2_4__1";
-            this.textBox2_4__1.Size = new System.Drawing.Size(110, 43);
+            this.textBox2_4__1.Size = new System.Drawing.Size(168, 43);
             this.textBox2_4__1.TabIndex = 0;
             this.textBox2_4__1.Text = resources.GetString("textBox2_4__1.Text");
             this.textBox2_4__1.WordWrap = false;
-            // 
-            // textBox2_4__2
-            // 
-            this.textBox2_4__2.Location = new System.Drawing.Point(85, 60);
-            this.textBox2_4__2.Multiline = true;
-            this.textBox2_4__2.Name = "textBox2_4__2";
-            this.textBox2_4__2.Size = new System.Drawing.Size(110, 49);
-            this.textBox2_4__2.TabIndex = 5;
-            this.textBox2_4__2.WordWrap = false;
             // 
             // groupBox2_3__
             // 
@@ -574,20 +705,11 @@
             this.button2_1__1.UseVisualStyleBackColor = true;
             this.button2_1__1.Click += new System.EventHandler(this.button2_1__1_Click);
             // 
-            // label1_0__2
-            // 
-            this.label1_0__2.AutoSize = true;
-            this.label1_0__2.Location = new System.Drawing.Point(502, 77);
-            this.label1_0__2.Name = "label1_0__2";
-            this.label1_0__2.Size = new System.Drawing.Size(55, 15);
-            this.label1_0__2.TabIndex = 12;
-            this.label1_0__2.Text = "学習比率";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(781, 450);
+            this.ClientSize = new System.Drawing.Size(912, 555);
             this.Controls.Add(this.tabControl1);
             this.Name = "Form1";
             this.Text = "AnoSono   あのその             by Iwate University";
@@ -595,12 +717,13 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1__.ResumeLayout(false);
             this.tabPage1__.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox1_7__.ResumeLayout(false);
             this.groupBox1_6__.ResumeLayout(false);
             this.groupBox1_6__.PerformLayout();
             this.groupBox1_5__.ResumeLayout(false);
             this.groupBox1_5__.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox1_4__.ResumeLayout(false);
             this.groupBox1_3__.ResumeLayout(false);
             this.groupBox1_3__.PerformLayout();
@@ -609,6 +732,8 @@
             this.groupBox1_1__.ResumeLayout(false);
             this.groupBox1_1__.PerformLayout();
             this.tabPage2__.ResumeLayout(false);
+            this.groupBox2_5__.ResumeLayout(false);
+            this.groupBox2_5__.PerformLayout();
             this.groupBox2_4__.ResumeLayout(false);
             this.groupBox2_4__.PerformLayout();
             this.groupBox2_3__.ResumeLayout(false);
@@ -665,10 +790,23 @@
         private Button button1_4__2;
         private TextBox textBox1_1__1;
         private Button button1_0__2;
-        private TextBox textBox2_4__2;
         private GroupBox groupBox2_4__;
         private TextBox textBox2_4__1;
         private TextBox textBox1_0__2;
         private Label label1_0__2;
+        private GroupBox groupBox2_5__;
+        private TextBox textBox2_5__8;
+        private TextBox textBox2_5__7;
+        private TextBox textBox2_5__6;
+        private TextBox textBox2_5__5;
+        private TextBox textBox2_5__4;
+        private TextBox textBox2_5__3;
+        private TextBox textBox2_5__2;
+        private TextBox textBox2_5__1;
+        private TextBox textBox2_5__12;
+        private TextBox textBox2_5__11;
+        private TextBox textBox2_5__10;
+        private TextBox textBox2_5__9;
+        private Panel panel1;
     }
 }

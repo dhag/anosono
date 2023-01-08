@@ -187,6 +187,12 @@ namespace anosono
             if (!string.IsNullOrWhiteSpace(textBox2__1.Text))
             {
                 initialFolder = textBox2__1.Text;
+                if (!Directory.Exists(initialFolder))
+                {
+                    initialFolder=Path.GetDirectoryName(initialFolder);
+                }
+
+
             }
             FolderDialog.Bll.FolderDialog.ISelect dialog = new FolderDialog.Bll.FolderDialog.Select();
             dialog.InitialFolder = initialFolder;// "C:\\";

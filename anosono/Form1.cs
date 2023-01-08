@@ -473,8 +473,19 @@ namespace anosono
             pictureBox1.Refresh();
         }
 
+        int InitialPanellSizeX;
+        int InitialPanellSizeY;
+        int InitialPanellPosX;
+        int InitialPanellPosY;
+
+
+
         private void Form1_Shown(object sender, EventArgs e)
         {
+            InitialPanellSizeX=panel1.Size.Width;
+            InitialPanellSizeY = panel1.Size.Height;
+            InitialPanellPosX=panel1.Location.X;
+            InitialPanellPosY=panel1.Location.Y;
 
             textBox1_1__1.Text = config.ProjectFolderFullPath;
             textBox1_1__2.Text = config.AllImageFileFolder;
@@ -500,10 +511,15 @@ namespace anosono
                 var fullpath = annotationFolderFullPath + @"\" + config.AnnotationFileName;
                 loadAnnotationFile(fullpath);
             }
+
+            UpdateConfig2TextBox();
+
+            tabControl1_Resize();
         }
 
         public void UpdateConfig(Config _config, bool isUpdateTextBox)
         {
+
             lock (config)
             {
                 config.CopyFrom(_config);
@@ -888,6 +904,19 @@ namespace anosono
             s += tab + s10+ nl;
             s += tab + s11+ nl;
             return s;
+        }
+
+        private void tabControl1_Resize(object sender, EventArgs e)
+        {
+            tabControl1_Resize();
+        }
+        private void tabControl1_Resize()
+        { 
+
+            var sx = tabControl1.Size.Width - InitialPanellPosX-20;
+            var sy = tabControl1.Size.Height - InitialPanellPosY-30;
+
+            panel1.Size = new System.Drawing.Size(sx,sy);
         }
     }
 

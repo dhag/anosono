@@ -324,6 +324,20 @@ namespace anosono
             textBox2_1__1.Text = config.MaxDistanceFromMouseToNode.ToString();
             textBox2_2__1.Text = config.MinimumLinkLength.ToString();
 
+            textBox2_5__1.Text = config.AllAnnotationFileName;
+            textBox2_5__2.Text = config.AllImageFileFolder;
+            textBox2_5__3.Text = config.AnnotationFileFolder;
+            textBox2_5__4.Text = config.AnnotationFileName;
+            textBox2_5__5.Text = config.CategoryPythonFileName;
+            textBox2_5__6.Text = config.DefinedPythonFileName;
+            //textBox2_5__7.Text = config.ImageFileFolder;
+            //textBox2_5__8.Text = config.MaxDistanceFromMouseToNode.ToString();
+            //textBox2_5__8.Text = config.MinimumLinkLength.ToString();
+            //textBox2_5__8.Text = config.ProjectFolderFullPath;
+            textBox2_5__7.Text = config.TrainAnnotationFileName;
+            textBox2_5__8.Text = config.ValidAnnotationFileName;
+            textBox2_5__9.Text = config.ValidImageFileFolder;
+
         }
 
         void TextBox2Config()
@@ -334,6 +348,21 @@ namespace anosono
                 config.ImageFileFolder = textBox1_1__2.Text;
                 config.MaxDistanceFromMouseToNode = float.Parse(textBox2_1__1.Text);
                 config.MinimumLinkLength = int.Parse(textBox2_2__1.Text);
+
+
+                config.AllAnnotationFileName = textBox2_5__1.Text;
+                config.AllImageFileFolder = textBox2_5__2.Text;
+                config.AnnotationFileFolder = textBox2_5__3.Text;
+                config.AnnotationFileName = textBox2_5__4.Text;
+                config.CategoryPythonFileName = textBox2_5__5.Text;
+                config.DefinedPythonFileName = textBox2_5__6.Text;
+                //config.ImageFileFolder = textBox2_5__7.Text;
+                //config.MaxDistanceFromMouseToNode = textBox2_5__8.Text.ToString();
+                //config.MinimumLinkLength = textBox2_5__8.Text.ToString();
+                //config.ProjectFolderFullPath = textBox2_5__8.Text;
+                config.TrainAnnotationFileName = textBox2_5__7.Text;
+                config.ValidAnnotationFileName = textBox2_5__8.Text;
+                config.ValidImageFileFolder = textBox2_5__9.Text;
             }
         }
         private void Form1_Save(string fileName)
