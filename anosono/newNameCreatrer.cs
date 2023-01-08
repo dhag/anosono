@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 public class NewNameCreator
 {
-
     public static string CreateWithRemoveSafix
            (string target, List<string> targetList, int numericLength, string safix)
     {
