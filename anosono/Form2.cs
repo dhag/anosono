@@ -29,7 +29,6 @@ namespace anosono
             else
                 textBox1.Text = text;
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();

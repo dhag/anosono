@@ -1,5 +1,4 @@
 ﻿//https://iwasiman.hatenablog.com/entry/20210614-CSharp-json#%E8%BF%BD%E5%8A%A0%E6%96%B9%E6%B3%95
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
