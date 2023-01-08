@@ -272,7 +272,17 @@ namespace anosono
             {
                 currentImagePack.isActive = false;
                 //画像ファイルを読み込む
-                currentImage0 = Image.FromFile(fullpath);
+                //PictureBoxなどイメージを読み込む際に、「Image.FromFile」を使うと
+                //読み込んだ画像ファイルがロックされることがあります。
+                //これは、仕様のようです。
+                //currentImage0 = Image.FromFile(fullpath);
+                //FileStream オブジェクトを使用し、画像を読み込む
+                using (System.IO.FileStream fs = new System.IO.FileStream(fullpath,
+                      System.IO.FileMode.Open, System.IO.FileAccess.Read))
+                {
+                    currentImage0 = Image.FromStream(fs);
+                }//fs.Close();
+
                 //成功したら(読めたら)
                 currentImagePack.isActive = true;
                 currentImagePack.width = currentImage0.Width;

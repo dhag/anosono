@@ -189,15 +189,25 @@ public class ImagePack:Coco.Images
 
                     imagePack.isActive = false;
                     //画像ファイルを読み込む
-                    var tmpImage0 = Image.FromFile(fullPathName);
-                    //成功したら(読めたら)
-                    imagePack.isActive = true;
-                    imagePack.date_captured = "";
-                    imagePack.file_name = fileName_;
-                    imagePack.id = id + fileIDOffset;
-                    imagePack.width = tmpImage0.Width;
-                    imagePack.height = tmpImage0.Height;
-                    id++;
+                    //var tmpImage0 = Image.FromFile(fullPathName);
+                    Image tmpImage0=null;
+                    using (System.IO.FileStream fs = new System.IO.FileStream(fullPathName,
+                        System.IO.FileMode.Open, System.IO.FileAccess.Read))
+                    {
+                        tmpImage0 = Image.FromStream(fs);
+
+                    }
+                    if (tmpImage0 != null)
+                    {
+                        //成功したら(読めたら)
+                        imagePack.isActive = true;
+                        imagePack.date_captured = "";
+                        imagePack.file_name = fileName_;
+                        imagePack.id = id + fileIDOffset;
+                        imagePack.width = tmpImage0.Width;
+                        imagePack.height = tmpImage0.Height;
+                        id++;
+                    }
                 }
                 catch { }
                 imagePackList_.Add(imagePack);

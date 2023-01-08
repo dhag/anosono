@@ -52,7 +52,7 @@ public class Config
     public string? DefinedPythonFileName { get; set; }
 
     [JsonIgnore]
-    public int mode = 0;//0新規生成
+    public int annotationMode = 0;// 0;//0新規生成
 
     [JsonIgnore]
     public string thisFileName;
@@ -76,7 +76,7 @@ public class Config
         ValidAnnotationFileName = "val.json";
         CategoryPythonFileName="iwatedemo_category.py";
         DefinedPythonFileName = "my_yolox_s_C.py";
-        mode = 0;
+        annotationMode = 0; 
     }
 
     public void CopyFrom(Config c)
@@ -98,7 +98,7 @@ public class Config
         CategoryPythonFileName = c.CategoryPythonFileName;
         DefinedPythonFileName = c.DefinedPythonFileName;
 
-        mode = c.mode;
+        annotationMode = c.annotationMode;
         thisFileName = c.thisFileName;
 
     }

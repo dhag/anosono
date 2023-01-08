@@ -37,6 +37,9 @@
             this.textBox1__1 = new System.Windows.Forms.TextBox();
             this.button1__1 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.radioButton2__3 = new System.Windows.Forms.RadioButton();
+            this.radioButton2__2 = new System.Windows.Forms.RadioButton();
+            this.radioButton2__1 = new System.Windows.Forms.RadioButton();
             this.textBox2__1 = new System.Windows.Forms.TextBox();
             this.button2__1 = new System.Windows.Forms.Button();
             this.button0__1 = new System.Windows.Forms.Button();
@@ -130,6 +133,9 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.radioButton2__3);
+            this.groupBox2.Controls.Add(this.radioButton2__2);
+            this.groupBox2.Controls.Add(this.radioButton2__1);
             this.groupBox2.Controls.Add(this.textBox2__1);
             this.groupBox2.Controls.Add(this.button2__1);
             this.groupBox2.Location = new System.Drawing.Point(1, 216);
@@ -141,9 +147,48 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "既存のプロジェクト";
             // 
+            // radioButton2__3
+            // 
+            this.radioButton2__3.AutoSize = true;
+            this.radioButton2__3.Enabled = false;
+            this.radioButton2__3.Location = new System.Drawing.Point(432, 48);
+            this.radioButton2__3.Name = "radioButton2__3";
+            this.radioButton2__3.Size = new System.Drawing.Size(30, 19);
+            this.radioButton2__3.TabIndex = 7;
+            this.radioButton2__3.TabStop = true;
+            this.radioButton2__3.Text = "-";
+            this.radioButton2__3.UseVisualStyleBackColor = true;
+            this.radioButton2__3.Visible = false;
+            // 
+            // radioButton2__2
+            // 
+            this.radioButton2__2.AutoSize = true;
+            this.radioButton2__2.Enabled = false;
+            this.radioButton2__2.Location = new System.Drawing.Point(290, 48);
+            this.radioButton2__2.Name = "radioButton2__2";
+            this.radioButton2__2.Size = new System.Drawing.Size(30, 19);
+            this.radioButton2__2.TabIndex = 6;
+            this.radioButton2__2.TabStop = true;
+            this.radioButton2__2.Text = "-";
+            this.radioButton2__2.UseVisualStyleBackColor = true;
+            this.radioButton2__2.Visible = false;
+            // 
+            // radioButton2__1
+            // 
+            this.radioButton2__1.AutoSize = true;
+            this.radioButton2__1.Enabled = false;
+            this.radioButton2__1.Location = new System.Drawing.Point(123, 48);
+            this.radioButton2__1.Name = "radioButton2__1";
+            this.radioButton2__1.Size = new System.Drawing.Size(30, 19);
+            this.radioButton2__1.TabIndex = 5;
+            this.radioButton2__1.TabStop = true;
+            this.radioButton2__1.Text = "-";
+            this.radioButton2__1.UseVisualStyleBackColor = true;
+            this.radioButton2__1.Visible = false;
+            // 
             // textBox2__1
             // 
-            this.textBox2__1.Location = new System.Drawing.Point(124, 32);
+            this.textBox2__1.Location = new System.Drawing.Point(123, 20);
             this.textBox2__1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox2__1.Name = "textBox2__1";
             this.textBox2__1.Size = new System.Drawing.Size(464, 23);
@@ -211,5 +256,8 @@
         private Button button2__1;
         private Panel panel1__1;
         private Label label1;
+        private RadioButton radioButton2__3;
+        private RadioButton radioButton2__2;
+        private RadioButton radioButton2__1;
     }
 }

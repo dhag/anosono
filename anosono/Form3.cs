@@ -91,7 +91,7 @@ namespace anosono
                 button1__2.Visible = false;
                 textBox2__1.Text = fullPath;
                 panel1__1.Visible = true;
-                configMode = 0;
+                localConfigMode = new List<bool>() { false, false, false };
             }
 
 
@@ -104,9 +104,8 @@ namespace anosono
         }
 
 
-        int checkFoloders(string fullPath,bool isCreateFolder)
+        List<bool> checkFoloders(string fullPath,bool isCreateFolder)
         {
-            int m = 0;
             bool mm0 = false;
             bool mm1 = false;
             bool mm2 = false;
@@ -165,23 +164,12 @@ namespace anosono
                 mm2 = true;
             }
 
-
-            if ((m == 0) && (mm0))
-            {
-                m=1;
-            }
-
-            if ((m == 0) && mm1 && mm2)
-            {
-                m = 2;
-            }
-
-            return m;
+            return new List<bool>() { mm0, mm1, mm2 };
         }
 
         private void button2__1_Click(object sender, EventArgs e)
         {
-
+            var config = form1.GetConfigClone();
 
             var initialFolder = Environment.CurrentDirectory;
             if (!string.IsNullOrWhiteSpace(textBox2__1.Text))
@@ -203,7 +191,30 @@ namespace anosono
                 if (Directory.Exists(fullPath))
                 {
 
-                    configMode= checkFoloders(fullPath,false);
+                    localConfigMode= checkFoloders(fullPath,false);
+                    if (localConfigMode[2] == true)
+                    {
+                        radioButton2__3.Visible = true;
+                        radioButton2__3.Enabled = true;
+                        radioButton2__3.Text = config.ValidImageFileFolder;
+                        radioButton2__3.Checked = true;
+                    }
+                    if (localConfigMode[1] == true)
+                    {
+                        radioButton2__2.Visible = true;
+                        radioButton2__2.Enabled = true;
+                        radioButton2__2.Text = config.TrainImageFileFolder;
+                        radioButton2__2.Checked = true;
+
+                    }
+                    if (localConfigMode[0] == true)
+                    {
+                        radioButton2__1.Visible = true;
+                        radioButton2__1.Enabled=true;
+                        radioButton2__1.Text = config.AllImageFileFolder;
+                        radioButton2__1.Checked = true;
+                    }
+
                     textBox2__1.Visible = true;
                     button0__1.Visible = true;
                 }
@@ -213,12 +224,24 @@ namespace anosono
                 }
             }
         }
-        int configMode;
+        List<bool> localConfigMode = new List<bool>() { false, false, false };
         void SetFolders()
         {
             Config _config = form1.GetConfigClone();
             _config.ProjectFolderFullPath = textBox2__1.Text;
-            _config.mode = configMode;
+            var m = 0;
+            if (radioButton2__1.Checked) {
+                m = 1;
+            }
+            else if (radioButton2__2.Checked)
+            {
+                m = 2;
+            }
+            else if (radioButton2__3.Checked)
+            {
+                m = 3;
+            }
+            _config.annotationMode = m;
              form1.UpdateConfig(_config,false);
         }
 

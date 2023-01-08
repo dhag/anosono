@@ -492,24 +492,36 @@ namespace anosono
             config.ImageFileFolder = config.TrainImageFileFolder;
             config.AnnotationFileName = config.AllAnnotationFileName;
 
-            var annotationFolderFullPath = config.ProjectFolderFullPath +@"\"+ config.AnnotationFileFolder;
-                
-            if (config.mode == 0)
+            var AnnotationFolderFullPath = config.ProjectFolderFullPath +@"\"+ config.AnnotationFileFolder;
+
+
+            if (config.annotationMode==0)
             {
                 viewImageList();
             }
-            else if (config.mode == 1)
+            else if (config.annotationMode==1)
             {
-                var fullpath=annotationFolderFullPath + @"\" + config.AnnotationFileName;
-                loadAnnotationFile(fullpath);
+                var AllAnnotationFileNameFullpath = AnnotationFolderFullPath + @"\" + config.AllAnnotationFileName;
+                textBox1_1__2.Text = config.AllImageFileFolder;
+                config.ImageFileFolder = config.AllImageFileFolder;
+                config.AnnotationFileName = config.AllAnnotationFileName;
+                loadAnnotationFile(AllAnnotationFileNameFullpath);
             }
-            else if (config.mode == 2)
+            else if (config.annotationMode == 2)
             {
+                var TrainAnnotationFileNameFullpath = AnnotationFolderFullPath + @"\" + config.TrainAnnotationFileName;
                 textBox1_1__2.Text = config.TrainImageFileFolder;
                 config.ImageFileFolder= config.TrainImageFileFolder;
                 config.AnnotationFileName = config.TrainAnnotationFileName;
-                var fullpath = annotationFolderFullPath + @"\" + config.AnnotationFileName;
-                loadAnnotationFile(fullpath);
+                loadAnnotationFile(TrainAnnotationFileNameFullpath);
+            }
+            else if (config.annotationMode == 3)
+            {
+                var ValidAnnotationFileNameFullpath = AnnotationFolderFullPath + @"\" + config.ValidAnnotationFileName;
+                textBox1_1__2.Text = config.ValidImageFileFolder;
+                config.ImageFileFolder = config.ValidImageFileFolder;
+                config.AnnotationFileName = config.ValidAnnotationFileName;
+                loadAnnotationFile(ValidAnnotationFileNameFullpath);
             }
 
             UpdateConfig2TextBox();
@@ -732,7 +744,7 @@ namespace anosono
                 if ((int.Parse(textBox1_0__2.Text) == 100)||((int.Parse(textBox1_0__2.Text) == 0)))
                 {
                     //ファイルのコピー
-                    if ((config.mode == 0) || (config.mode == 1))
+                    if ((config.annotationMode == 0) || (config.annotationMode == 1))
                     {
                         var iAllDirName =
                         config.ProjectFolderFullPath + @"\"
