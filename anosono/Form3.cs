@@ -167,6 +167,7 @@ namespace anosono
             return new List<bool>() { mm0, mm1, mm2 };
         }
 
+
         private void button2__1_Click(object sender, EventArgs e)
         {
             var config = form1.GetConfigClone();
